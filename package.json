@@ -1,0 +1,28 @@
+{
+  "name": "todo-list",
+  "version": "1.0.0",
+  "description": "a web-based todo app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --watch",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codewithed/todo-list.git"
+  },
+  "keywords": [
+    "todo"
+  ],
+  "author": "Edmund Debrah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codewithed/todo-list/issues"
+  },
+  "homepage": "https://github.com/codewithed/todo-list#readme",
+  "devDependencies": {
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  }
+}
