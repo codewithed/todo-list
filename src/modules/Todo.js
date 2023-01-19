@@ -1,5 +1,21 @@
-const createTodo = (title, dueDate, description, priority) => ({
-  title, dueDate, description, priority,
+const Todo = (title, dueDate, description, priority) => ({
+  title,
+  dueDate,
+  description,
+  priority,
+
+  editTitle(newTitle) {
+    this.title = newTitle;
+  },
+  editDescription(newDesc) {
+    this.description = newDesc;
+  },
+  editPriority(newPriority) {
+    this.priority = newPriority;
+  },
+  editDueDate(newDueDate) {
+    this.dueDate = newDueDate;
+  },
 });
 
-export default createTodo;
+export default Todo;

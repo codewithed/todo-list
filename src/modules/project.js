@@ -1,4 +1,4 @@
-const createProject = (projectName) => {
+const Project = (projectName) => {
   const arr = [];
   const addTask = (todo) => {
     arr.push(todo);
@@ -11,4 +11,4 @@ const createProject = (projectName) => {
   };
 };
 
-export default createProject;
+export default Project;
