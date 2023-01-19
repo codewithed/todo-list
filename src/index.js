@@ -1,5 +1,4 @@
-import createProject from './modules/project';
-import createTodo from './modules/Todo';
+import Project from './modules/project';
 
 // create default project
-const inbox = createProject('inbox');
+const inbox = Project('inbox');
