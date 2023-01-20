@@ -1,4 +1,4 @@
-const Todo = (title, dueDate, description, priority) => ({
+const newTodo = (title, dueDate, description, priority) => ({
   title,
   dueDate,
   description,
@@ -18,4 +18,4 @@ const Todo = (title, dueDate, description, priority) => ({
   },
 });
 
-export default Todo;
+export default newTodo;

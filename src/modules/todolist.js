@@ -1,13 +1,13 @@
-const todolist = () => {
+const createTodoList = () => {
   const arr = [];
   function addProject(project) {
-    todolist.push(project);
+    arr.push(project);
   }
 
   function removeProject(project) {
-    todolist.splice(todolist.indexOf(project), 1);
+    arr.splice(arr.indexOf(project), 1);
   }
   return { arr, addProject, removeProject };
 };
 
-export default todolist;
+export default createTodoList;
