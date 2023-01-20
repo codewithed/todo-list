@@ -9,4 +9,5 @@ const projectlist = createTodoList();
 const inbox = Project('inbox');
 projectlist.addProject(inbox);
 
+// set defaul project
 const defaultProject = inbox;
