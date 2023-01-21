@@ -6,7 +6,7 @@
     --bg-secondary: #fffbeb;
     --bg-hover: #fde68a;
     --font-size-xl: 4rem;
-    --font-size-big: 2rem;
+    --font-size-big: 2.2rem;
     --font-size-medium: 1.8rem;
     --primary-light: whitesmoke;
 }
@@ -89,6 +89,7 @@ body {
 .footer {
     background-color: var(--bg-main);
     padding: 1rem;
+    text-align: center;
 }
 
 a {
