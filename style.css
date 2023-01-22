@@ -78,7 +78,7 @@ body {
     border: none;
     background: var(--bg-secondary);
     font-weight: 600;
-    border-radius: 5px;
+    border-radius: 7px;
 }
 
 .projects {
