@@ -4,6 +4,7 @@ import Project from './Project';
 import Storage from './Storage';
 
 export default function loadUi() {
+  /**
   // add dom manipulation logic
   const tasklist = document.getElementById('tasklist');
   const projectBtns = document.querySelectorAll('#projectBtn');
@@ -24,4 +25,5 @@ export default function loadUi() {
     addProjectBtn.style.display = 'none';
     addingProj = true;
   }
+  */
 }
