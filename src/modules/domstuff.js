@@ -10,10 +10,13 @@ let addingProj = false;
 const projectSection = document.getElementById('userProjects');
 function addProjToDom() {
   const projectPrompt = document.createElement('div');
+  projectPrompt.classList.add('project-prompt');
   projectPrompt.innerHTML = `<input type="text" value="" placeholder="project title" data-project-title>
-    <button id="add" style="background-color: rgb(123, 237, 157);">Add</button>
-    <button id="cancel" style="background-color: rgb(247, 95, 95)">Cancel</button>`;
-  projectSection.append(projectPrompt);
+  <div><button id="add" style="background-color: rgb(123, 237, 157);">Add</button>
+<button id="cancel" style="background-color: rgb(247, 95, 95)">Cancel</button></div>`;
+  projectSection.appendChild(projectPrompt);
   addProjectBtn.style.display = 'none';
   addingProj = true;
 }
+
+export default addProjToDom;
