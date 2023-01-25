@@ -86,6 +86,25 @@ body {
     font-weight: 700;
 }
 
+.project-prompt {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.project-prompt input {
+    font-size: var(--font-size-medium);
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #eee;
+}
+
+.project-prompt button {
+    font-size: var(--font-size-medium);
+    border-radius: 7px;
+    padding: 0.6rem;
+}
+
 .footer {
     background-color: var(--bg-main);
     padding: 1rem;
