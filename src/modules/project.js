@@ -1,3 +1,7 @@
+import {
+  toDate, isToday, isThisWeek, subDays,
+} from 'date-fns';
+
 const Project = (projectName) => {
   const arr = [];
   const addTask = (todo) => {
