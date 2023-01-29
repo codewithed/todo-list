@@ -12,10 +12,10 @@ const Project = (projectName) => {
     arr.splice(arr.indexOf(todo), 1);
   };
   const getTodayTasks = () => {
-    arr.filter((task) => task.isToday);
+    arr.filter((task) => task.dueDate === isToday);
   };
   const getWeeklyTasks = () => {
-    arr.filter((task) => task.isThisWeek);
+    arr.filter((task) => task.dueDate === isThisWeek);
   };
   return {
     projectName, arr, addTask, removeTask,
