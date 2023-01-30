@@ -1,8 +1,9 @@
-const newTodo = (title, dueDate, description, priority) => ({
+const newTodo = (title, dueDate, description, priority, completedStatus) => ({
   title,
   dueDate,
   description,
   priority,
+  completedStatus,
 
   editTitle(newTitle) {
     this.title = newTitle;
@@ -15,6 +16,9 @@ const newTodo = (title, dueDate, description, priority) => ({
   },
   editDueDate(newDueDate) {
     this.dueDate = newDueDate;
+  },
+  editCompletedStatus(newCompletedStatus) {
+    this.completedStatus = newCompletedStatus;
   },
 });
 
