@@ -21,4 +21,14 @@ export default function loadUi() {
     const task = Todo(title, dueDate, description, priority, completedStatus);
     currentProject.addTask(task);
   }
+
+  // delete task from current project
+  function deleteTask(taskName) {
+    currentProject.removeTask(taskName);
+  }
+
+  // delete project
+  function deleteProject(projectName) {
+    projectList.removeProject(projectName);
+  }
 }
