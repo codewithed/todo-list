@@ -1,10 +1,9 @@
 import Todo from './Todo';
-import TodoList from './TodoList';
-import Project from './Project';
-import Storage from './Storage';
+import TodoList from './todolist';
+import Project from './project';
+import Storage from './storage';
 
 export default function loadUi() {
-  /**
   // add dom manipulation logic
   const tasklist = document.getElementById('tasklist');
   const projectBtns = document.querySelectorAll('#projectBtn');
@@ -25,5 +24,4 @@ export default function loadUi() {
     addProjectBtn.style.display = 'none';
     addingProj = true;
   }
-  */
 }
