@@ -1,5 +1,5 @@
 import {
-  toDate, isToday, isThisWeek, subDays,
+  isToday, isThisWeek,
 } from 'date-fns';
 
 // project factory function
@@ -12,13 +12,13 @@ const Project = (projectName) => {
     arr.splice(arr.indexOf(todo), 1);
   };
   const getTodayTasks = () => {
-    arr.filter((task) => task.dueDate === isToday);
+    arr.filter((task) => isToday(task.dueDate));
   };
   const getWeeklyTasks = () => {
-    arr.filter((task) => task.dueDate === isThisWeek);
+    arr.filter((task) => isThisWeek(task.dueDate));
   };
   return {
-    projectName, arr, addTask, removeTask,
+    projectName, arr, addTask, removeTask, getTodayTasks, getWeeklyTasks,
   };
 };
 
