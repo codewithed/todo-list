@@ -1,5 +1,5 @@
 import {
-  isToday, isThisWeek,
+  isToday, isThisWeek, isPast,
 } from 'date-fns';
 
 // project factory function
@@ -17,8 +17,11 @@ const Project = (projectName) => {
   const getWeeklyTasks = () => {
     arr.filter((task) => isThisWeek(task.dueDate));
   };
+  const pastDueTasks = () => {
+    arr.filter((task) => isPast(task.dueDate));
+  };
   return {
-    projectName, arr, addTask, removeTask, getTodayTasks, getWeeklyTasks,
+    projectName, arr, addTask, removeTask, getTodayTasks, getWeeklyTasks, pastDueTasks,
   };
 };
 
