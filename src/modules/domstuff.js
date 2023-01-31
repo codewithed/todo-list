@@ -30,6 +30,7 @@ export default function loadUi() {
 
   // delete project
   function deleteProject(projectName) {
+    // delete task from current project
     projectList.removeProject(projectName);
   }
 
@@ -38,5 +39,6 @@ export default function loadUi() {
    next up is to create the components and add them to the functions
    also need to implement the local storage interface
    then finally wire up the functions to the eventlisteners
+   and extra tweaks
   */
 }
