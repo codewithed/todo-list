@@ -46,9 +46,9 @@ export default function loadUi() {
     projectButton.innerHTML = `<div class="left-project-panel"><img src="dist/images/project.svg" alt="" class="project-icon"><span>`title`</span></div>
     <div class="right-project-panel"><img src="dist/images/trash-can.svg" alt="" ></div>`;
     userProjects.appendChild(projectButton);
-    projectPrompt.remove();
     const addProjectBtn = document.getElementById('addProjectBtn');
     addProjectBtn.style.display = 'block';
+    projectPrompt.remove();
   }
 
   // removes project prompt

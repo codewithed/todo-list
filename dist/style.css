@@ -115,3 +115,8 @@ a {
     text-decoration: none;
     color:black;
 }
+
+.user-projects {
+    display: flex;
+    flex-direction: column;
+}
