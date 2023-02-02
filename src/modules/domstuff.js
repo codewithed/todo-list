@@ -16,7 +16,7 @@ export default function loadUi() {
     projectPrompt.setAttribute('id', 'projectPrompt');
     const addProjectBtn = document.getElementById('addProjectBtn');
     projectPrompt.classList.add('project-prompt');
-    projectPrompt.innerHTML = `<input type="text" value="" placeholder="project title" data-projectTitle>
+    projectPrompt.innerHTML = `<input type="text" value="" placeholder="project title" id='projectTitle'>
   <div><button id="add" style="background-color: rgb(123, 237, 157);">Add</button>
 <button id="cancel" style="background-color: rgb(247, 95, 95)">Cancel</button></div>`;
     userProjects.append(projectPrompt);
@@ -32,23 +32,26 @@ export default function loadUi() {
 
   // creates new project from projectPrompt
   function addProject() {
-    const projectPrompt = document.getElementById('projectPrompt');
-    const newProj = Project(projectPrompt.dataset.projectTitle);
-    projectList.addProject(newProj);
+    const title = document.getElementById('projectTitle').value;
+    if (title === undefined || title === '') {
+      alert("Project name can't be empty");
+    } else {
+      const projectPrompt = document.getElementById('projectPrompt');
+      const newProj = Project(title);
+      projectList.addProject(newProj);
 
-    // create project button
-    const userProjects = document.getElementById('userProjects');
-    const projectButton = document.createElement('button');
-    projectButton.classList.add('projectButton');
-    projectButton.style.id = 'projectButton';
-    const title = projectPrompt.dataset.projectTitle;
-    projectButton.dataset.projectTitle = title;
-    projectButton.innerHTML = `<div class="left-project-panel"><img src="dist/images/project.svg" alt="" class="project-icon"><span>`title`</span></div>
+      // create project button
+      const userProjects = document.getElementById('userProjects');
+      const projectButton = document.createElement('button');
+      projectButton.classList.add('projectButton');
+      projectButton.style.id = 'projectButton';
+      projectButton.innerHTML = `<div class="left-project-panel"><img src="dist/images/project.svg" alt="" class="project-icon"><span>${title}</span></div>
     <div class="right-project-panel"><img src="dist/images/trash-can.svg" alt="" ></div>`;
-    userProjects.appendChild(projectButton);
-    const addProjectBtn = document.getElementById('addProjectBtn');
-    addProjectBtn.style.display = 'block';
-    projectPrompt.remove();
+      userProjects.appendChild(projectButton);
+      const addProjectBtn = document.getElementById('addProjectBtn');
+      addProjectBtn.style.display = 'block';
+      projectPrompt.remove();
+    }
   }
 
   // removes project prompt
@@ -70,7 +73,7 @@ export default function loadUi() {
   /*
    might store all todos in the todolist instead?
    next up is to create the components and add them to the functions
-   also need to implement the local  interface
+   also need to implement the local storage interface
    then finally wire up the functions to the eventlisteners
    and extra tweaks
   */
