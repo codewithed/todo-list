@@ -43,10 +43,10 @@ export default function loadUi() {
       // create project button
       const userProjects = document.getElementById('userProjects');
       const projectButton = document.createElement('button');
-      projectButton.classList.add('projectButton');
+      projectButton.classList.add('project-button');
       projectButton.style.id = 'projectButton';
-      projectButton.innerHTML = `<div class="left-project-panel"><span>${title}</span></div>
-    <div class="right-project-panel"></div>`;
+      projectButton.innerHTML = `<div class="left-project-panel"><i class="fa-solid fa-list"></i><span>&nbsp${title}</span></div>
+    <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
       userProjects.appendChild(projectButton);
       const addProjectBtn = document.getElementById('addProjectBtn');
       addProjectBtn.style.display = 'block';
