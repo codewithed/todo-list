@@ -78,6 +78,29 @@ export default function loadUi() {
    and extra tweaks
   */
 
+  // ADD FUNCTIONS FOR GETTING TODO ITEMS
+
+  // addd a todo task to the current project
+  function addTodo(todo) {
+    currentProject.addTask(todo);
+  }
+
+  // get the todo tasks in inbox
+  function getInboxTasks() {
+  }
+
+  // get the todo tasks of the day
+  function getDayTodoTasks() {
+  }
+
+  // function get the todo tasks of the week
+  function getDayWeeksTasks() {
+  }
+
+  // loads todos of a project
+  function loadTasks(project) {
+  }
+
   // ADD EVENT LISTENERS
   const addProjectBtn = document.getElementById('addProjectBtn');
   addProjectBtn.addEventListener('click', promptProject);
