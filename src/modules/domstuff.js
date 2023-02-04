@@ -1,5 +1,5 @@
 import Todo from './Todo';
-import TodoList from './todolist';
+import ProjectList from './projectlist';
 import Project from './project';
 import Storage from './storage';
 
@@ -7,7 +7,7 @@ export default function loadUi() {
   // create default objects
   const defaultProject = Project('defaultProject');
   const currentProject = defaultProject;
-  const projectList = TodoList();
+  const projectList = ProjectList();
 
   // creates projectPrompt and appends it to screen
   function promptProject() {
@@ -71,7 +71,6 @@ export default function loadUi() {
   }
 
   /*
-   might store all todos in the todolist instead?
    next up is to create the components and add them to the functions
    also need to implement the local storage interface
    then finally wire up the functions to the eventlisteners
@@ -80,9 +79,20 @@ export default function loadUi() {
 
   // ADD FUNCTIONS FOR GETTING TODO ITEMS
 
-  // addd a todo task to the current project
-  function addTodo(todo) {
+  // add a todo task to the current project
+  function addTodo() {
+    // create todo prompt component
+    const todo = Todo();
     currentProject.addTask(todo);
+  }
+
+  // deletes todo task
+  function deleteTodo(e) {
+    if (e.target === '') {
+      const todo = '';
+      currentProject.removeTask(todo);
+      // remove todo component
+    }
   }
 
   // get the todo tasks in inbox
@@ -90,7 +100,7 @@ export default function loadUi() {
   }
 
   // get the todo tasks of the day
-  function getDayTodoTasks() {
+  function getDayTodoysTasks() {
   }
 
   // function get the todo tasks of the week
@@ -98,7 +108,10 @@ export default function loadUi() {
   }
 
   // loads todos of a project
-  function loadTasks(project) {
+  function loadTasks() {
+    currentProject.arr.forEach((element) => {
+      // create todo component
+    });
   }
 
   // ADD EVENT LISTENERS
