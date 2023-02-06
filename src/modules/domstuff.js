@@ -99,6 +99,16 @@ export default function loadUi() {
     cancel.addEventListener('click', removeTodoPrompt);
   }
 
+  // deletes todo task
+  function deleteTodo(e) {
+    if (e.target.classList.includes('fa-circle') || e.target.classList.includes('fa-trash')) {
+      // remove todo component
+      const todo = e.target.parent.parent;
+      todo.remove();
+      // remove the corresponding todo object
+    }
+  }
+
   // add a todo task to the current project
   function addTodo() {
     const todoPrompt = document.getElementById('todoPrompt');
@@ -120,6 +130,8 @@ export default function loadUi() {
       todoSection.append(todoItem);
       const addTodoBtn = document.getElementById('addTodoBtn');
       addTodoBtn.style.display = 'block';
+
+      //
     }
   }
 
@@ -128,15 +140,6 @@ export default function loadUi() {
     todoPrompt.remove();
     const addTodoBtn = document.getElementById('addTodoBtn');
     addTodoBtn.style.display = 'block';
-  }
-
-  // deletes todo task
-  function deleteTodo(e) {
-    if (e.target === '') {
-      const todo = '';
-      currentProject.removeTask(todo);
-      // remove todo component
-    }
   }
 
   // get the todo tasks in inbox
