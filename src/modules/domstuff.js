@@ -17,8 +17,8 @@ export default function loadUi() {
     const addProjectBtn = document.getElementById('addProjectBtn');
     projectPrompt.classList.add('project-prompt');
     projectPrompt.innerHTML = `<input type="text" value="" placeholder="project title" id='projectTitle'>
-  <div><button id="add" style="background-color: rgb(123, 237, 157);">Add</button>
-<button id="cancel" style="background-color: rgb(247, 95, 95)">Cancel</button></div>`;
+   <div><button id="add" style="background-color: rgb(123, 237, 157);">Add</button>
+   <button id="cancel" style="background-color: rgb(247, 95, 95)">Cancel</button></div>`;
     userProjects.append(projectPrompt);
     addProjectBtn.style.display = 'none';
 
@@ -26,7 +26,7 @@ export default function loadUi() {
     const add = document.getElementById('add');
     const cancel = document.getElementById('cancel');
 
-    add.addEventListener('click', addProject, removeProjectPrompt);
+    add.addEventListener('click', addProject);
     cancel.addEventListener('click', removeProjectPrompt);
   }
 
@@ -46,7 +46,7 @@ export default function loadUi() {
       projectButton.classList.add('project-button');
       projectButton.style.id = 'projectButton';
       projectButton.innerHTML = `<div class="left-project-panel"><i class="fa-solid fa-list"></i><span>&nbsp${title}</span></div>
-    <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
+     <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
       userProjects.appendChild(projectButton);
       const addProjectBtn = document.getElementById('addProjectBtn');
       addProjectBtn.style.display = 'block';
@@ -79,11 +79,45 @@ export default function loadUi() {
 
   // ADD FUNCTIONS FOR GETTING TODO ITEMS
 
+  function promptTodo() {
+    // create todo prompt component
+    const todoPrompt = document.createElement('div');
+    todoPrompt.setAttribute('id', 'todoPrompt');
+    todoPrompt.classList.add('project-prompt');
+    todoPrompt.innerHTML = `<input type="text" value="" placeholder="task title" id='taskTitle'>
+  <div><button id="add" style="background-color: rgb(123, 237, 157);">Add</button>
+<button id="cancel" style="background-color: rgb(247, 95, 95)">Cancel</button></div>`;
+    const todoSection = document.getElementById('tasklist');
+    todoSection.appendChild(todoPrompt);
+
+    const add = document.getElementById('add');
+    const cancel = document.getElementById('cancel');
+
+    add.addEventListener('click', addTodo);
+    cancel.addEventListener('click', removeTodoPrompt);
+  }
+
   // add a todo task to the current project
   function addTodo() {
-    // create todo prompt component
-    const todo = Todo();
-    currentProject.addTask(todo);
+    const todoPrompt = document.getElementById('todoPrompt');
+    const taskName = document.getElementById('taskTitle').value;
+    if (taskName === undefined || taskName === '' || taskName === null) {
+      alert('Task name cannot be empty');
+    } else {
+      const todo = Todo(taskName);
+      currentProject.addTask(todo);
+      todoPrompt.remove();
+    }
+
+    const todoItem = `<button class="todo-item"><div><i class="fa-regular fa-circle"></i><p>${taskName}</p></div>
+    <div><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate"><i class="fa-light fa-trash"></i></div></button>`;
+    const todoSection = document.getElementById('tasklist');
+    todoSection.appendChild(todoItem);
+  }
+
+  function removeTodoPrompt() {
+    const todoPrompt = document.getElementById('todoPrompt');
+    todoPrompt.remove();
   }
 
   // deletes todo task
@@ -110,7 +144,7 @@ export default function loadUi() {
   // loads todos of a project
   function loadTasks() {
     currentProject.arr.forEach((element) => {
-      // create todo component
+      // create todo component from todo objects
     });
   }
 

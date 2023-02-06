@@ -133,3 +133,17 @@ a {
     display: flex;
     flex-direction: column;
 }
+
+.tasks-list {
+    width: 80vh;
+    padding: 3rem;
+}
+
+.main {
+    display: flex;
+}
+
+.todo-item {
+    border: none;
+    border-radius: 9px;
+}
