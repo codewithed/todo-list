@@ -144,6 +144,8 @@ a {
 }
 
 .todo-item {
+    display: flex;
+    flex-direction: space-between;
     border: none;
     border-radius: 9px;
 }
