@@ -135,8 +135,8 @@ a {
 }
 
 .tasks-list {
-    width: 80vh;
-    padding: 3rem;
+    width: 90vw;
+    padding: 2rem 4rem;
 }
 
 .main {
@@ -145,7 +145,42 @@ a {
 
 .todo-item {
     display: flex;
-    flex-direction: space-between;
+    justify-content: space-between;
     border: none;
     border-radius: 9px;
+    align-items: center;
+    font-size: var(--font-size-medium);
+}
+
+.input-date,.input-task-name {
+    display: none;
+}
+
+.input-date.active{
+    display: block;
+}
+
+.input-task-name.active {
+    display: block;
+}
+
+.left-task-panel,.right-task-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button, input {
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
 }

@@ -114,8 +114,8 @@ export default function loadUi() {
       // create todo component
       const todoItem = document.createElement('button');
       todoItem.classList.add('todo-item');
-      todoItem.innerHTML = `<div><i class="fa-regular fa-circle"></i><p>${taskName}</p></div>
-      <div><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate"><i class="fa-light fa-trash"></i></div>`;
+      todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p>${taskName}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
+      <div class="right-task-panel"><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-light fa-trash"></i></div>`;
       const todoSection = document.getElementById('tasklist');
       todoSection.append(todoItem);
       const addTodoBtn = document.getElementById('addTodoBtn');
@@ -144,11 +144,11 @@ export default function loadUi() {
   }
 
   // get the todo tasks of the day
-  function getDayTodoysTasks() {
+  function getDaysTasks() {
   }
 
   // function get the todo tasks of the week
-  function getDayWeeksTasks() {
+  function getWeeksTasks() {
   }
 
   // loads todos of a project
