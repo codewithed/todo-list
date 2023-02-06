@@ -81,12 +81,14 @@ export default function loadUi() {
 
   function promptTodo() {
     // create todo prompt component
+    const addTodoBtn = document.getElementById('addTodoBtn');
+    addTodoBtn.style.display = 'none';
     const todoPrompt = document.createElement('div');
     todoPrompt.setAttribute('id', 'todoPrompt');
     todoPrompt.classList.add('project-prompt');
     todoPrompt.innerHTML = `<input type="text" value="" placeholder="task title" id='taskTitle'>
-  <div><button id="add" style="background-color: rgb(123, 237, 157);">Add</button>
-<button id="cancel" style="background-color: rgb(247, 95, 95)">Cancel</button></div>`;
+    <div><button id="add" style="background-color: rgb(123, 237, 157);">Add</button>
+    <button id="cancel" style="background-color: rgb(247, 95, 95)">Cancel</button></div>`;
     const todoSection = document.getElementById('tasklist');
     todoSection.appendChild(todoPrompt);
 
@@ -104,20 +106,28 @@ export default function loadUi() {
     if (taskName === undefined || taskName === '' || taskName === null) {
       alert('Task name cannot be empty');
     } else {
+      // create todo object
       const todo = Todo(taskName);
       currentProject.addTask(todo);
       todoPrompt.remove();
-    }
 
-    const todoItem = `<button class="todo-item"><div><i class="fa-regular fa-circle"></i><p>${taskName}</p></div>
-    <div><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate"><i class="fa-light fa-trash"></i></div></button>`;
-    const todoSection = document.getElementById('tasklist');
-    todoSection.appendChild(todoItem);
+      // create todo component
+      const todoItem = document.createElement('button');
+      todoItem.classList.add('todo-item');
+      todoItem.innerHTML = `<div><i class="fa-regular fa-circle"></i><p>${taskName}</p></div>
+      <div><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate"><i class="fa-light fa-trash"></i></div>`;
+      const todoSection = document.getElementById('tasklist');
+      todoSection.append(todoItem);
+      const addTodoBtn = document.getElementById('addTodoBtn');
+      addTodoBtn.style.display = 'block';
+    }
   }
 
   function removeTodoPrompt() {
     const todoPrompt = document.getElementById('todoPrompt');
     todoPrompt.remove();
+    const addTodoBtn = document.getElementById('addTodoBtn');
+    addTodoBtn.style.display = 'block';
   }
 
   // deletes todo task
@@ -151,4 +161,7 @@ export default function loadUi() {
   // ADD EVENT LISTENERS
   const addProjectBtn = document.getElementById('addProjectBtn');
   addProjectBtn.addEventListener('click', promptProject);
+
+  const addTodoBtn = document.getElementById('addTodoBtn');
+  addTodoBtn.addEventListener('click', promptTodo);
 }
