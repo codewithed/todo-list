@@ -130,8 +130,6 @@ export default function loadUi() {
       todoSection.append(todoItem);
       const addTodoBtn = document.getElementById('addTodoBtn');
       addTodoBtn.style.display = 'block';
-
-      //
     }
   }
 
