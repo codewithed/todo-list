@@ -101,9 +101,9 @@ export default function loadUi() {
 
   // deletes todo task
   function deleteTodo(e) {
-    if (e.target.classList.includes('fa-circle') || e.target.classList.includes('fa-trash')) {
+    if (e.target.classList.contains('fa-xmark')) {
       // remove todo component
-      const todo = e.target.parent.parent;
+      const todo = e.target.parentNode.parentNode;
       todo.remove();
       // remove the corresponding todo object
     }
@@ -125,9 +125,10 @@ export default function loadUi() {
       const todoItem = document.createElement('button');
       todoItem.classList.add('todo-item');
       todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p>${taskName}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
-      <div class="right-task-panel"><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-light fa-trash"></i></div>`;
+      <div class="right-task-panel"><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
       const todoSection = document.getElementById('tasklist');
       todoSection.append(todoItem);
+      todoItem.addEventListener('click', deleteTodo);
       const addTodoBtn = document.getElementById('addTodoBtn');
       addTodoBtn.style.display = 'block';
     }
