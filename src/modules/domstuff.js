@@ -30,6 +30,28 @@ export default function loadUi() {
     cancel.addEventListener('click', removeProjectPrompt);
   }
 
+  function showProjectOnTodoSection() {
+    const todoSection = document.getElementById('tasklist');
+    todoSection.innerHTML = '';
+    const title = document.getElementById('projectTitle');
+    title.innerText = currentProject.name;
+  }
+
+  // loads todos of a project
+  function loadTodos() {
+    currentProject.arr.forEach((element) => {
+      // create todo component
+      const todoSection = document.getElementById('tasklist');
+      const todoItem = document.createElement('button');
+      todoItem.classList.add('todo-item');
+      todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p>${element.title}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
+      <div class="right-task-panel"><p id='dueDate'>${element.dueDate}</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
+      todoItem.setAttribute('data-index', currentProject.arr.length);
+      todoSection.append(todoItem);
+      todoItem.addEventListener('click', deleteTodo);
+    });
+  }
+
   // creates new project from projectPrompt
   function addProject() {
     const title = document.getElementById('projectTitle').value;
@@ -49,8 +71,15 @@ export default function loadUi() {
      <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
       userProjects.appendChild(projectButton);
       const addProjectBtn = document.getElementById('addProjectBtn');
+
       addProjectBtn.style.display = 'block';
       projectPrompt.remove();
+
+      // add event listeners
+      projectButton.addEventListener('click', (e) => {
+        showProjectOnTodoSection(e);
+        loadTodos();
+      });
     }
   }
 
@@ -154,10 +183,6 @@ export default function loadUi() {
 
   // function get the todo tasks of the week
   function getWeeksTasks() {
-  }
-
-  // loads todos of a project
-  function loadTodos() {
   }
 
   // ADD EVENT LISTENERS

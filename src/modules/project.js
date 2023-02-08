@@ -4,6 +4,8 @@ import {
 
 // project factory function
 const Project = (projectName) => {
+  const name = projectName;
+
   const arr = [];
   function addTask(todo) {
     arr.push(todo);
@@ -21,7 +23,7 @@ const Project = (projectName) => {
     arr.filter((task) => isPast(task.dueDate));
   };
   return {
-    projectName, arr, addTask, removeTask, getTodayTasks, getWeeklyTasks, pastDueTasks,
+    name, arr, addTask, removeTask, getTodayTasks, getWeeklyTasks, pastDueTasks,
   };
 };
 
