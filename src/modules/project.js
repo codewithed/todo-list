@@ -5,12 +5,12 @@ import {
 // project factory function
 const Project = (projectName) => {
   const arr = [];
-  const addTask = (todo) => {
+  function addTask(todo) {
     arr.push(todo);
-  };
-  const removeTask = (todo) => {
-    arr.splice(arr.indexOf(todo), 1);
-  };
+  }
+  function removeTask(index) {
+    arr.splice(index, 1);
+  }
   const getTodayTasks = () => {
     arr.filter((task) => isToday(task.dueDate));
   };
