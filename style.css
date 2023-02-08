@@ -134,7 +134,7 @@ a {
     flex-direction: column;
 }
 
-.tasks-list {
+.todo-section {
     width: 90vw;
     padding: 2rem 4rem;
 }
