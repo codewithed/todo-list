@@ -101,7 +101,7 @@ export default function loadUi() {
 
   // deletes todo task
   function deleteTodo(e) {
-    if (e.target.classList.contains('fa-xmark')) {
+    if (e.target.classList.contains('fa-xmark') || e.target.classList.contains('fa-circle')) {
       // remove todo component
       const todo = e.target.parentNode.parentNode;
       todo.remove();
