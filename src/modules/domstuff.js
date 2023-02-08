@@ -106,6 +106,8 @@ export default function loadUi() {
       const todo = e.target.parentNode.parentNode;
       todo.remove();
       // remove the corresponding todo object
+      const { index } = todo.dataset;
+      currentProject.removeTask(index);
     }
   }
 
@@ -127,6 +129,7 @@ export default function loadUi() {
       todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p>${taskName}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
       <div class="right-task-panel"><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
       const todoSection = document.getElementById('tasklist');
+      todoItem.setAttribute('data-index', currentProject.arr.length);
       todoSection.append(todoItem);
       todoItem.addEventListener('click', deleteTodo);
       const addTodoBtn = document.getElementById('addTodoBtn');
@@ -154,10 +157,7 @@ export default function loadUi() {
   }
 
   // loads todos of a project
-  function loadTasks() {
-    currentProject.arr.forEach((element) => {
-      // create todo component from todo objects
-    });
+  function loadTodos() {
   }
 
   // ADD EVENT LISTENERS
