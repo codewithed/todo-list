@@ -68,7 +68,7 @@ export default function loadUi() {
       const projectButton = document.createElement('button');
       projectButton.classList.add('project-button');
       projectButton.style.id = 'projectButton';
-      projectButton.setAttribute('data-index', projectList.arr);
+      projectButton.setAttribute('data-index', projectList.arr.length);
       projectButton.innerHTML = `<div class="left-project-panel"><i class="fa-solid fa-list"></i><span>&nbsp${title}</span></div>
      <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
       userProjects.appendChild(projectButton);
@@ -96,7 +96,7 @@ export default function loadUi() {
   // deletes a project
   function deleteProject(e) {
     if (e.target.style.id === 'projectButton') {
-      const { index } = e.target.dataset;
+      const { index } = e.target.dataset.index;
       projectList.removeProject(index);
       e.target.remove();
     }
