@@ -5,9 +5,9 @@ import Storage from './storage';
 
 export default function loadUi() {
   // create default objects
-  const defaultProject = Project('defaultProject');
+  const defaultProject = new Project('defaultProject');
   const currentProject = defaultProject;
-  const projectList = ProjectList();
+  const projectList = new ProjectList();
 
   // creates projectPrompt and appends it to screen
   function promptProject() {
@@ -30,11 +30,12 @@ export default function loadUi() {
     cancel.addEventListener('click', removeProjectPrompt);
   }
 
-  function showProjectOnTodoSection() {
+  function showProjectOnTodoSection(e) {
     const todoSection = document.getElementById('tasklist');
     todoSection.innerHTML = '';
     const title = document.getElementById('projectTitle');
-    title.innerText = currentProject.name;
+    const targetProject = projectList.arr[e.target.dataset.index];
+    title.innerText = targetProject.name;
   }
 
   // loads todos of a project
@@ -59,7 +60,7 @@ export default function loadUi() {
       alert("Project name can't be empty");
     } else {
       const projectPrompt = document.getElementById('projectPrompt');
-      const newProj = Project(title);
+      const newProj = new Project(title);
       projectList.addProject(newProj);
 
       // create project button
@@ -67,6 +68,7 @@ export default function loadUi() {
       const projectButton = document.createElement('button');
       projectButton.classList.add('project-button');
       projectButton.style.id = 'projectButton';
+      projectButton.setAttribute('data-index', projectList.arr);
       projectButton.innerHTML = `<div class="left-project-panel"><i class="fa-solid fa-list"></i><span>&nbsp${title}</span></div>
      <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
       userProjects.appendChild(projectButton);
@@ -94,7 +96,8 @@ export default function loadUi() {
   // deletes a project
   function deleteProject(e) {
     if (e.target.style.id === 'projectButton') {
-      projectList.removeProject(e.target.dataset.projectTitle);
+      const { index } = e.target.dataset;
+      projectList.removeProject(index);
       e.target.remove();
     }
   }

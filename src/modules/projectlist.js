@@ -1,13 +1,13 @@
 function ProjectList() {
-  const arr = [];
-  function addProject(project) {
-    arr.push(project);
-  }
+  this.arr = [];
 
-  function removeProject(project) {
-    arr.splice(arr.indexOf(project), 1);
-  }
-  return { arr, addProject, removeProject };
+  this.addProject = (project) => {
+    this.arr.push(project);
+  };
+
+  this.removeProject = (index) => {
+    this.arr.splice(index, 1);
+  };
 }
 
 export default ProjectList;

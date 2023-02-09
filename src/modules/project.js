@@ -3,28 +3,24 @@ import {
 } from 'date-fns';
 
 // project factory function
-const Project = (projectName) => {
-  const name = projectName;
-
-  const arr = [];
-  function addTask(todo) {
-    arr.push(todo);
-  }
-  function removeTask(index) {
-    arr.splice(index, 1);
-  }
-  const getTodayTasks = () => {
-    arr.filter((task) => isToday(task.dueDate));
+function Project(projectName) {
+  this.name = projectName;
+  this.arr = [];
+  this.addTask = (todo) => {
+    this.arr.push(todo);
   };
-  const getWeeklyTasks = () => {
-    arr.filter((task) => isThisWeek(task.dueDate));
+  this.removeTask = (index) => {
+    this.arr.splice(index, 1);
   };
-  const pastDueTasks = () => {
-    arr.filter((task) => isPast(task.dueDate));
+  this.getTodayTasks = () => {
+    this.filter((task) => isToday(task.dueDate));
   };
-  return {
-    name, arr, addTask, removeTask, getTodayTasks, getWeeklyTasks, pastDueTasks,
+  this.getWeeklyTasks = () => {
+    this.arr.filter((task) => isThisWeek(task.dueDate));
   };
-};
+  this.pastDueTasks = () => {
+    this.arr.filter((task) => isPast(task.dueDate));
+  };
+}
 
 export default Project;
