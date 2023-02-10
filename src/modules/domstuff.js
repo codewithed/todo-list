@@ -6,7 +6,7 @@ import Storage from './storage';
 export default function loadUi() {
   // create default objects
   const defaultProject = new Project('defaultProject');
-  const currentProject = defaultProject;
+  let currentProject = defaultProject;
   const projectList = new ProjectList();
 
   // creates projectPrompt and appends it to screen
@@ -28,14 +28,6 @@ export default function loadUi() {
 
     add.addEventListener('click', addProject);
     cancel.addEventListener('click', removeProjectPrompt);
-  }
-
-  function showProjectOnTodoSection(e) {
-    const todoSection = document.getElementById('tasklist');
-    todoSection.innerHTML = '';
-    const title = document.getElementById('projectTitle');
-    const targetProject = projectList.arr[e.target.dataset.index];
-    title.innerText = targetProject.name;
   }
 
   // loads todos of a project
@@ -78,8 +70,13 @@ export default function loadUi() {
       projectPrompt.remove();
 
       // add event listeners
-      projectButton.addEventListener('click', (e) => {
-        showProjectOnTodoSection(e);
+      projectButton.addEventListener('click', () => {
+        currentProject = newProj;
+        const todoSection = document.getElementById('tasklist');
+        todoSection.innerHTML = '';
+        const projtitle = document.getElementById('projectTitle');
+        projtitle.innerText = newProj.name;
+
         loadTodos();
       });
     }
