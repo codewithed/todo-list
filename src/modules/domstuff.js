@@ -6,6 +6,8 @@ import Storage from './storage';
 export default function loadUi() {
   // create default objects
   const defaultProject = new Project('defaultProject');
+  const projectToday = new Project('projectToday');
+  const projectThisWeek = new Project('projectThisWeek');
   let currentProject = defaultProject;
   const projectList = new ProjectList();
 
@@ -39,7 +41,8 @@ export default function loadUi() {
       todoItem.classList.add('todo-item');
       todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p>${element.title}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
       <div class="right-task-panel"><p id='dueDate'>${element.dueDate}</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
-      todoItem.setAttribute('data-index', currentProject.arr.length);
+      const index = currentProject.arr.length;
+      todoItem.setAttribute('data-index', index);
       todoSection.append(todoItem);
       todoItem.addEventListener('click', deleteTodo);
     });
@@ -99,13 +102,6 @@ export default function loadUi() {
     }
   }
 
-  /*
-   next up is to create the components and add them to the functions
-   also need to implement the local storage interface
-   then finally wire up the functions to the eventlisteners
-   and extra tweaks
-  */
-
   // ADD FUNCTIONS FOR GETTING TODO ITEMS
 
   function promptTodo() {
@@ -132,11 +128,11 @@ export default function loadUi() {
   function deleteTodo(e) {
     if (e.target.classList.contains('fa-xmark') || e.target.classList.contains('fa-circle')) {
       // remove todo component
-      const todo = e.target.parentNode.parentNode;
+      const todo = e.target.parentElement.parentElement;
       todo.remove();
       // remove the corresponding todo object
-      const { index } = todo.dataset.index;
-      currentProject.removeTask(index);
+      const num = todo.dataset.index;
+      currentProject.removeTask(num);
     }
   }
 
@@ -158,7 +154,8 @@ export default function loadUi() {
       todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p>${taskName}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
       <div class="right-task-panel"><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
       const todoSection = document.getElementById('tasklist');
-      todoItem.setAttribute('data-index', currentProject.arr.length - 1);
+      const index = currentProject.arr.length - 1;
+      todoItem.setAttribute('data-index', index);
       todoSection.append(todoItem);
       todoItem.addEventListener('click', deleteTodo);
       const addTodoBtn = document.getElementById('addTodoBtn');
@@ -175,6 +172,7 @@ export default function loadUi() {
 
   // get the todo tasks in inbox
   function getInboxTasks() {
+
   }
 
   // get the todo tasks of the day
