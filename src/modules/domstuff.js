@@ -33,8 +33,8 @@ export default function loadUi() {
   }
 
   // loads todos of a project
-  function loadTodos() {
-    currentProject.arr.forEach((element) => {
+  function loadTodos(arr) {
+    arr.forEach((element) => {
       // create todo component
       const todoSection = document.getElementById('tasklist');
       const todoItem = document.createElement('button');
@@ -80,7 +80,7 @@ export default function loadUi() {
         const projtitle = document.getElementById('projectTitle');
         projtitle.innerText = newProj.name;
 
-        loadTodos();
+        loadTodos(currentProject.arr);
       });
     }
   }
@@ -172,7 +172,7 @@ export default function loadUi() {
 
   // get the todo tasks in inbox
   function getInboxTasks() {
-
+    loadTodos(defaultProject.arr);
   }
 
   // get the todo tasks of the day
@@ -189,4 +189,14 @@ export default function loadUi() {
 
   const addTodoBtn = document.getElementById('addTodoBtn');
   addTodoBtn.addEventListener('click', promptTodo);
+
+  const inboxBtn = document.getElementById('inboxBtn');
+  inboxBtn.addEventListener('click', () => {
+    currentProject = defaultProject;
+    const todoSection = document.getElementById('tasklist');
+    todoSection.innerHTML = '';
+    const projtitle = document.getElementById('projectTitle');
+    projtitle.innerText = 'Inbox';
+    getInboxTasks();
+  });
 }
