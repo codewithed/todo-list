@@ -240,4 +240,8 @@ export default function loadUi() {
     showProjInDom('This Week');
     getWeeksTasks();
   });
+
+  // DEFAULT BEHAVIOUR WHEN WINDOW LOADS
+  showProjInDom('Inbox');
+  getInboxTasks();
 }
