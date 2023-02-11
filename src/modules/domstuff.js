@@ -214,6 +214,15 @@ export default function loadUi() {
   }
 
   // FUNCTIONS FOR EDITING TODO ITEMS
+  function editDueDate() {
+    // add active class to elem
+    // update todo item with new data
+  }
+
+  function editTodoName() {
+    // add active class to elem
+    // update todo item with new data
+  }
 
   // ADD EVENT LISTENERS
   const addProjectBtn = document.getElementById('addProjectBtn');
