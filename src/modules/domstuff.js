@@ -172,6 +172,11 @@ export default function loadUi() {
 
   // get the todo tasks in inbox
   function getInboxTasks() {
+    currentProject = defaultProject;
+    const todoSection = document.getElementById('tasklist');
+    todoSection.innerHTML = '';
+    const projtitle = document.getElementById('projectTitle');
+    projtitle.innerText = 'Inbox';
     loadTodos(defaultProject.arr);
   }
 
@@ -192,11 +197,6 @@ export default function loadUi() {
 
   const inboxBtn = document.getElementById('inboxBtn');
   inboxBtn.addEventListener('click', () => {
-    currentProject = defaultProject;
-    const todoSection = document.getElementById('tasklist');
-    todoSection.innerHTML = '';
-    const projtitle = document.getElementById('projectTitle');
-    projtitle.innerText = 'Inbox';
     getInboxTasks();
   });
 }
