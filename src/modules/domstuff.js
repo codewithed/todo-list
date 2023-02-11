@@ -30,6 +30,22 @@ export default function loadUi() {
     cancel.addEventListener('click', removeProjectPrompt);
   }
 
+  function showProjInDom(projectName) {
+    const todoSection = document.getElementById('tasklist');
+    todoSection.innerHTML = '';
+    const projtitle = document.getElementById('projectTitle');
+    projtitle.innerText = projectName;
+  }
+
+  // deletes a project
+  function deleteProject(e) {
+    if (e.target.style.id === 'projectButton') {
+      const { index } = e.target.dataset.index;
+      projectList.removeProject(index);
+      e.target.remove();
+    }
+  }
+
   // loads todos of a project
   function loadTodos(arr) {
     arr.forEach((element) => {
@@ -44,13 +60,6 @@ export default function loadUi() {
       todoSection.append(todoItem);
       todoItem.addEventListener('click', deleteTodo);
     });
-  }
-
-  function showProjInDom(projectName) {
-    const todoSection = document.getElementById('tasklist');
-    todoSection.innerHTML = '';
-    const projtitle = document.getElementById('projectTitle');
-    projtitle.innerText = projectName;
   }
 
   // creates new project from projectPrompt
@@ -78,10 +87,11 @@ export default function loadUi() {
       projectPrompt.remove();
 
       // add event listeners
-      projectButton.addEventListener('click', () => {
+      projectButton.addEventListener('click', (e) => {
         currentProject = newProj;
         showProjInDom(newProj.name);
         loadTodos(currentProject.arr);
+        deleteProject(e);
       });
     }
   }
@@ -92,15 +102,6 @@ export default function loadUi() {
     const projectPrompt = document.getElementById('projectPrompt');
     projectPrompt.remove();
     addProjectBtn.style.display = 'block';
-  }
-
-  // deletes a project
-  function deleteProject(e) {
-    if (e.target.style.id === 'projectButton') {
-      const { index } = e.target.dataset.index;
-      projectList.removeProject(index);
-      e.target.remove();
-    }
   }
 
   // ADD FUNCTIONS FOR GETTING TODO ITEMS
@@ -211,6 +212,8 @@ export default function loadUi() {
     });
     loadTodos(weeksTasks);
   }
+
+  // FUNCTIONS FOR EDITING TODO ITEMS
 
   // ADD EVENT LISTENERS
   const addProjectBtn = document.getElementById('addProjectBtn');
