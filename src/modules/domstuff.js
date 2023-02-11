@@ -182,10 +182,38 @@ export default function loadUi() {
 
   // get the todo tasks of the day
   function getDaysTasks() {
+    // get each projects today tasks
+    const buffer = [];
+    projectList.arr.forEach((list) => {
+      buffer.push(list.getTodayTasks());
+    });
+
+    // split all arrays in buffer into individual item
+    const todayTasks = [];
+    buffer.forEach((arr) => {
+      arr.forEach((item) => {
+        todayTasks.push(item);
+      });
+    });
+    loadTodos(todayTasks);
   }
 
   // function get the todo tasks of the week
   function getWeeksTasks() {
+    // get each projects today tasks
+    const buffer = [];
+    projectList.arr.forEach((list) => {
+      buffer.push(list.getWeeklyTasks());
+    });
+
+    // split all arrays in buffer into individual item
+    const weeksTasks = [];
+    buffer.forEach((arr) => {
+      arr.forEach((item) => {
+        weeksTasks.push(item);
+      });
+    });
+    loadTodos(weeksTasks);
   }
 
   // ADD EVENT LISTENERS
