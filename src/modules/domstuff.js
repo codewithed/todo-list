@@ -6,8 +6,6 @@ import Storage from './storage';
 export default function loadUi() {
   // create default objects
   const defaultProject = new Project('defaultProject');
-  const projectToday = new Project('projectToday');
-  const projectThisWeek = new Project('projectThisWeek');
   let currentProject = defaultProject;
   const projectList = new ProjectList();
 
@@ -48,6 +46,13 @@ export default function loadUi() {
     });
   }
 
+  function showProjInDom(projectName) {
+    const todoSection = document.getElementById('tasklist');
+    todoSection.innerHTML = '';
+    const projtitle = document.getElementById('projectTitle');
+    projtitle.innerText = projectName;
+  }
+
   // creates new project from projectPrompt
   function addProject() {
     const title = document.getElementById('projectTitle').value;
@@ -75,11 +80,7 @@ export default function loadUi() {
       // add event listeners
       projectButton.addEventListener('click', () => {
         currentProject = newProj;
-        const todoSection = document.getElementById('tasklist');
-        todoSection.innerHTML = '';
-        const projtitle = document.getElementById('projectTitle');
-        projtitle.innerText = newProj.name;
-
+        showProjInDom(newProj.name);
         loadTodos(currentProject.arr);
       });
     }
@@ -172,11 +173,6 @@ export default function loadUi() {
 
   // get the todo tasks in inbox
   function getInboxTasks() {
-    currentProject = defaultProject;
-    const todoSection = document.getElementById('tasklist');
-    todoSection.innerHTML = '';
-    const projtitle = document.getElementById('projectTitle');
-    projtitle.innerText = 'Inbox';
     loadTodos(defaultProject.arr);
   }
 
@@ -225,6 +221,20 @@ export default function loadUi() {
 
   const inboxBtn = document.getElementById('inboxBtn');
   inboxBtn.addEventListener('click', () => {
+    currentProject = defaultProject;
+    showProjInDom('Inbox');
     getInboxTasks();
+  });
+
+  const todayBtn = document.getElementById('todayBtn');
+  todayBtn.addEventListener('click', () => {
+    showProjInDom('Today');
+    getDaysTasks();
+  });
+
+  const thisWeekBtn = document.getElementById('thisWeekBtn');
+  thisWeekBtn.addEventListener('click', () => {
+    showProjInDom('This Week');
+    getWeeksTasks();
   });
 }
