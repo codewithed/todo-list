@@ -53,8 +53,8 @@ export default function loadUi() {
       const todoSection = document.getElementById('tasklist');
       const todoItem = document.createElement('button');
       todoItem.classList.add('todo-item');
-      todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p>${element.title}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
-      <div class="right-task-panel"><p id='dueDate'>${element.dueDate}</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
+      todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p class="todo-title">${element.title}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
+      <div class="right-task-panel"><p class='due-date'>${element.dueDate}</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
       const index = currentProject.arr.length;
       todoItem.setAttribute('data-index', index);
       todoSection.append(todoItem);
@@ -214,12 +214,16 @@ export default function loadUi() {
   }
 
   // FUNCTIONS FOR EDITING TODO ITEMS
-  function editDueDate() {
+  function editDueDate(e) {
+    if (e.target.classList.contains('due-date')) {
+    }
     // add active class to elem
     // update todo item with new data
   }
 
-  function editTodoName() {
+  function editTodoName(e) {
+    if (e.target.classList.contains('todo-title')) {
+    }
     // add active class to elem
     // update todo item with new data
   }
