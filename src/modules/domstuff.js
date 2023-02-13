@@ -138,6 +138,41 @@ export default function loadUi() {
     }
   }
 
+  // updates a todo item
+  function updateTodo(e) {
+    if (e.target.classList.contains('todo-title') || e.target.classList.contains('due-date')) {
+      const value = e.target;
+      value.style.display = 'none';
+
+      // make input element visible
+      const inputItem = e.target.parentElement.querySelector('input');
+      inputItem.classList.add('active');
+
+      // listen for enter event
+      document.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+          const input = inputItem.value;
+          if (input === '' || value === undefined) {
+            alert('Value cannot be empty');
+          } else {
+            inputItem.classList.remove('active');
+            value.style.display = 'block';
+            const { index } = value.parentElement.parentElement.dataset;
+            value.innerText = input;
+
+            // update todo item with new data
+            if (value.classList.contains('todo-title')) {
+              currentProject.arr[index].editTitle(input);
+            }
+            if (value.classList.contains('due-date')) {
+              currentProject.arr[index].editDueDate(input);
+            }
+          }
+        }
+      });
+    }
+  }
+
   // add a todo task to the current project
   function addTodo() {
     const todoPrompt = document.getElementById('todoPrompt');
@@ -153,13 +188,14 @@ export default function loadUi() {
       // create todo component
       const todoItem = document.createElement('button');
       todoItem.classList.add('todo-item');
-      todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p>${taskName}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
-      <div class="right-task-panel"><p id='dueDate'>No Date</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
+      todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p class="todo-title">${taskName}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
+      <div class="right-task-panel"><p class="due-date">No Date</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
       const todoSection = document.getElementById('tasklist');
       const index = currentProject.arr.length - 1;
       todoItem.setAttribute('data-index', index);
       todoSection.append(todoItem);
       todoItem.addEventListener('click', deleteTodo);
+      todoItem.addEventListener('click', updateTodo);
       const addTodoBtn = document.getElementById('addTodoBtn');
       addTodoBtn.style.display = 'block';
     }
@@ -211,21 +247,6 @@ export default function loadUi() {
       });
     });
     loadTodos(weeksTasks);
-  }
-
-  // FUNCTIONS FOR EDITING TODO ITEMS
-  function editDueDate(e) {
-    if (e.target.classList.contains('due-date')) {
-    }
-    // add active class to elem
-    // update todo item with new data
-  }
-
-  function editTodoName(e) {
-    if (e.target.classList.contains('todo-title')) {
-    }
-    // add active class to elem
-    // update todo item with new data
   }
 
   // ADD EVENT LISTENERS
