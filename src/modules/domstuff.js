@@ -39,10 +39,17 @@ export default function loadUi() {
 
   // deletes a project
   function deleteProject(e) {
-    if (e.target.style.id === 'projectButton') {
-      const { index } = e.target.dataset.index;
-      projectList.removeProject(index);
-      e.target.remove();
+    if (e.target.classList.contains('fa-xmark')) {
+      const projectBtn = e.target.parentElement.parentElement;
+      const num = projectBtn.dataset.index;
+      projectList.removeProject(num);
+      projectBtn.remove();
+      e.stopPropagation();
+
+      // show default project
+      currentProject = defaultProject;
+      showProjInDom('Inbox');
+      loadTodos(currentProject.arr);
     }
   }
 
@@ -87,12 +94,18 @@ export default function loadUi() {
       projectPrompt.remove();
 
       // add event listeners
-      projectButton.addEventListener('click', (e) => {
+      projectButton.addEventListener('click', () => {
         currentProject = newProj;
         showProjInDom(newProj.name);
         loadTodos(currentProject.arr);
-        deleteProject(e);
       });
+
+      projectButton.addEventListener('click', (e) => { deleteProject(e); });
+
+      /**
+      const closeProjectBtns = projectButton.querySelector('.fa-xmark');
+      const closeProjectBtn = closeProjectBtns[0];
+      closeProjectBtn.addEventListener('click', (e) => { deleteProject(e); });* */
     }
   }
 
@@ -128,8 +141,8 @@ export default function loadUi() {
 
   // deletes todo task
   function deleteTodo(e) {
-    if (e.target.classList.contains('fa-xmark') || e.target.classList.contains('fa-circle')) {
-      // remove todo component
+    // remove todo component
+    if (e.target.classList.contains('fa-xmark')) {
       const todo = e.target.parentElement.parentElement;
       todo.remove();
       // remove the corresponding todo object
@@ -231,7 +244,8 @@ export default function loadUi() {
     loadTodos(todayTasks);
   }
 
-  // function get the todo tasks of the week
+  /* // SAVING THEM FOR FUTURE FEATURES
+   // function get the todo tasks of the week
   function getWeeksTasks() {
     // get each projects today tasks
     const buffer = [];
@@ -247,7 +261,7 @@ export default function loadUi() {
       });
     });
     loadTodos(weeksTasks);
-  }
+  } */
 
   // ADD EVENT LISTENERS
   const addProjectBtn = document.getElementById('addProjectBtn');
@@ -263,7 +277,8 @@ export default function loadUi() {
     getInboxTasks();
   });
 
-  const todayBtn = document.getElementById('todayBtn');
+  /** saving for future features
+   * const todayBtn = document.getElementById('todayBtn');
   todayBtn.addEventListener('click', () => {
     showProjInDom('Today');
     getDaysTasks();
@@ -274,6 +289,8 @@ export default function loadUi() {
     showProjInDom('This Week');
     getWeeksTasks();
   });
+
+   */
 
   // DEFAULT BEHAVIOUR WHEN WINDOW LOADS
   showProjInDom('Inbox');
