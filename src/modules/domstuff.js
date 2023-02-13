@@ -30,6 +30,7 @@ export default function loadUi() {
     cancel.addEventListener('click', removeProjectPrompt);
   }
 
+  // shows current project title in the todo section
   function showProjInDom(projectName) {
     const todoSection = document.getElementById('tasklist');
     todoSection.innerHTML = '';
@@ -101,11 +102,6 @@ export default function loadUi() {
       });
 
       projectButton.addEventListener('click', (e) => { deleteProject(e); });
-
-      /**
-      const closeProjectBtns = projectButton.querySelector('.fa-xmark');
-      const closeProjectBtn = closeProjectBtns[0];
-      closeProjectBtn.addEventListener('click', (e) => { deleteProject(e); });* */
     }
   }
 
