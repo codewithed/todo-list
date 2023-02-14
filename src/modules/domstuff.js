@@ -1,13 +1,17 @@
 import Todo from './Todo';
 import ProjectList from './projectlist';
 import Project from './project';
-import Storage from './storage';
+import { saveItem, getItem, deleteItem } from './storage';
 
 export default function loadUi() {
   // create default objects
-  const defaultProject = new Project('defaultProject');
+  let defaultProject = new Project('defaultProject');
   let currentProject = defaultProject;
-  const projectList = new ProjectList();
+  let projectList = new ProjectList();
+
+  // save default items to local storage
+  saveItem('defaultProject', defaultProject);
+  saveItem('projectList', projectList);
 
   // creates projectPrompt and appends it to screen
   function promptProject() {
@@ -26,7 +30,14 @@ export default function loadUi() {
     const add = document.getElementById('add');
     const cancel = document.getElementById('cancel');
 
-    add.addEventListener('click', addProject);
+    add.addEventListener('click', () => {
+      const title = document.getElementById('projectTitle').value;
+      if (title === undefined || title === '') {
+        alert("Project name can't be empty");
+      }
+      addProject(title);
+      removeProjectPrompt();
+    });
     cancel.addEventListener('click', removeProjectPrompt);
   }
 
@@ -43,12 +54,19 @@ export default function loadUi() {
     if (e.target.classList.contains('fa-xmark')) {
       const projectBtn = e.target.parentElement.parentElement;
       const num = projectBtn.dataset.index;
-      projectList.removeProject(num);
+      // deleteItem(projectList.arr[num].name);
+      projectList.arr.splice(num, 1);
+      // saveItem('projectList', projectList);
       projectBtn.remove();
       e.stopPropagation();
 
       // show default project
+      if (getItem('defaultProject') !== null || getItem('defaultProject') !== undefined) {
+        defaultProject = JSON.parse(localStorage.defaultProject);
+      }
+
       currentProject = defaultProject;
+
       showProjInDom('Inbox');
       loadTodos(currentProject.arr);
     }
@@ -71,38 +89,39 @@ export default function loadUi() {
   }
 
   // creates new project from projectPrompt
-  function addProject() {
-    const title = document.getElementById('projectTitle').value;
-    if (title === undefined || title === '') {
-      alert("Project name can't be empty");
-    } else {
-      const projectPrompt = document.getElementById('projectPrompt');
-      const newProj = new Project(title);
-      projectList.addProject(newProj);
+  function addProject(title) {
+    let newProj = new Project(title);
+    projectList.arr.push(newProj);
 
-      // create project button
-      const userProjects = document.getElementById('userProjects');
-      const projectButton = document.createElement('button');
-      projectButton.classList.add('project-button');
-      projectButton.style.id = 'projectButton';
-      projectButton.setAttribute('data-index', projectList.arr.length - 1);
-      projectButton.innerHTML = `<div class="left-project-panel"><i class="fa-solid fa-list"></i><span>&nbsp${title}</span></div>
+    saveItem(newProj.name, newProj);
+    saveItem('projectList', projectList);
+
+    // create project button
+    const userProjects = document.getElementById('userProjects');
+    const projectButton = document.createElement('button');
+    projectButton.classList.add('project-button');
+    projectButton.style.id = 'projectButton';
+    projectButton.setAttribute('data-index', projectList.arr.length - 1);
+    projectButton.innerHTML = `<div class="left-project-panel"><i class="fa-solid fa-list"></i><span>&nbsp${title}</span></div>
      <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
-      userProjects.appendChild(projectButton);
-      const addProjectBtn = document.getElementById('addProjectBtn');
+    userProjects.appendChild(projectButton);
+    const addProjectBtn = document.getElementById('addProjectBtn');
 
-      addProjectBtn.style.display = 'block';
-      projectPrompt.remove();
+    addProjectBtn.style.display = 'block';
 
-      // add event listeners
-      projectButton.addEventListener('click', () => {
-        currentProject = newProj;
-        showProjInDom(newProj.name);
-        loadTodos(currentProject.arr);
-      });
+    // add event listeners
+    projectButton.addEventListener('click', () => {
+      if (getItem(newProj.name !== null || getItem(newProj.name !== undefined))) {
+        newProj = JSON.parse(getItem(newProj.name));
+      }
 
-      projectButton.addEventListener('click', (e) => { deleteProject(e); });
-    }
+      currentProject = newProj;
+
+      showProjInDom(newProj.name);
+      loadTodos(currentProject.arr);
+    });
+
+    projectButton.addEventListener('click', (e) => { deleteProject(e); });
   }
 
   // removes project prompt
@@ -143,7 +162,8 @@ export default function loadUi() {
       todo.remove();
       // remove the corresponding todo object
       const num = todo.dataset.index;
-      currentProject.removeTask(num);
+      currentProject.arr.splice(num, 1);
+      // deleteItem(todo.title);
     }
   }
 
@@ -166,7 +186,7 @@ export default function loadUi() {
           } else {
             inputItem.classList.remove('active');
             value.style.display = 'block';
-            const { index } = value.parentElement.parentElement.dataset;
+            const index = value.parentElement.parentElement.dataset;
             value.innerText = input;
 
             // update todo item with new data
@@ -176,6 +196,7 @@ export default function loadUi() {
             if (value.classList.contains('due-date')) {
               currentProject.arr[index].editDueDate(input);
             }
+            saveItem(currentProject.arr[index].title, currentProject.arr[index].title);
           }
         }
       });
@@ -191,8 +212,16 @@ export default function loadUi() {
     } else {
       // create todo object
       const todo = Todo(taskName);
-      currentProject.addTask(todo);
+      if (getItem(currentProject.name) !== undefined || getItem(currentProject.name) !== null) {
+        const currentProjectUnparsed = getItem(currentProject.name);
+        currentProject = JSON.parse(currentProjectUnparsed);
+      }
+      currentProject.arr.push(todo);
       todoPrompt.remove();
+
+      // save in local storage
+      // saveItem(todo.title, todo);
+      // saveItem(currentProject.title, currentProject);
 
       // create todo component
       const todoItem = document.createElement('button');
@@ -219,25 +248,13 @@ export default function loadUi() {
 
   // get the todo tasks in inbox
   function getInboxTasks() {
-    loadTodos(defaultProject.arr);
-  }
-
-  // get the todo tasks of the day
-  function getDaysTasks() {
-    // get each projects today tasks
-    const buffer = [];
-    projectList.arr.forEach((list) => {
-      buffer.push(list.getTodayTasks());
-    });
-
-    // split all arrays in buffer into individual item
-    const todayTasks = [];
-    buffer.forEach((arr) => {
-      arr.forEach((item) => {
-        todayTasks.push(item);
-      });
-    });
-    loadTodos(todayTasks);
+    if (getItem('defaultProject') !== undefined || getItem('defaultProject') !== null) {
+      const unparsedProj = getItem('defaultProject');
+      defaultProject = JSON.parse(unparsedProj);
+      loadTodos(defaultProject.arr);
+    } else {
+      loadTodos(defaultProject.arr);
+    }
   }
 
   /* // SAVING THEM FOR FUTURE FEATURES
@@ -291,4 +308,11 @@ export default function loadUi() {
   // DEFAULT BEHAVIOUR WHEN WINDOW LOADS
   showProjInDom('Inbox');
   getInboxTasks();
+  if (getItem('projectList') !== undefined || getItem('projectList') !== null) {
+    const projectListUnparsed = getItem('projectList');
+    projectList = JSON.parse(projectListUnparsed);
+    projectList.arr.forEach((element) => {
+      addProject(element.title);
+    });
+  }
 }
