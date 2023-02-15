@@ -28,6 +28,7 @@ export default function loadUi() {
 
   // updates a todo item
   function updateTodo(e) {
+    // checks for the correct target
     if (e.target.classList.contains('todo-title') || e.target.classList.contains('due-date')) {
       const value = e.target;
       value.style.display = 'none';
@@ -209,11 +210,6 @@ export default function loadUi() {
     cancel.addEventListener('click', removeTodoPrompt);
   }
 
-  // get the todo tasks in inbox
-  function getInboxTasks() {
-    loadTodos(defaultProject.arr);
-  }
-
   // ADD EVENT LISTENERS
   const addProjectBtn = document.getElementById('addProjectBtn');
   addProjectBtn.addEventListener('click', promptProject);
@@ -225,10 +221,9 @@ export default function loadUi() {
   inboxBtn.addEventListener('click', () => {
     currentProject = defaultProject;
     showProjInDom('Inbox');
-    getInboxTasks();
+    loadTodos(defaultProject.arr);
   });
 
   // DEFAULT BEHAVIOUR WHEN WINDOW LOADS
   showProjInDom('Inbox');
-  getInboxTasks();
 }
