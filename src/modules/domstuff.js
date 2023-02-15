@@ -5,13 +5,9 @@ import { saveItem, getItem, deleteItem } from './storage';
 
 export default function loadUi() {
   // create default objects
-  let defaultProject = new Project('defaultProject');
+  const defaultProject = new Project('defaultProject');
   let currentProject = defaultProject;
-  let projectList = new ProjectList();
-
-  // save default items to local storage
-  saveItem('defaultProject', defaultProject);
-  saveItem('projectList', projectList);
+  const projectList = new ProjectList();
 
   // creates projectPrompt and appends it to screen
   function promptProject() {
@@ -36,6 +32,7 @@ export default function loadUi() {
         alert("Project name can't be empty");
       }
       addProject(title);
+      createProjectButton(title);
       removeProjectPrompt();
     });
     cancel.addEventListener('click', removeProjectPrompt);
@@ -54,16 +51,15 @@ export default function loadUi() {
     if (e.target.classList.contains('fa-xmark')) {
       const projectBtn = e.target.parentElement.parentElement;
       const num = projectBtn.dataset.index;
-      // deleteItem(projectList.arr[num].name);
-      projectList.arr.splice(num, 1);
-      // saveItem('projectList', projectList);
+      projectList.removeProject(num);
       projectBtn.remove();
       e.stopPropagation();
 
-      // show default project
+      /*
       if (getItem('defaultProject') !== null || getItem('defaultProject') !== undefined) {
         defaultProject = JSON.parse(localStorage.defaultProject);
       }
+      */
 
       currentProject = defaultProject;
 
@@ -90,34 +86,28 @@ export default function loadUi() {
 
   // creates new project from projectPrompt
   function addProject(title) {
-    let newProj = new Project(title);
-    projectList.arr.push(newProj);
+    const newProj = new Project(title);
+    projectList.addProject(newProj);
+  }
 
-    saveItem(newProj.name, newProj);
-    saveItem('projectList', projectList);
-
+  function createProjectButton(title) {
     // create project button
     const userProjects = document.getElementById('userProjects');
     const projectButton = document.createElement('button');
     projectButton.classList.add('project-button');
     projectButton.style.id = 'projectButton';
-    projectButton.setAttribute('data-index', projectList.arr.length - 1);
+    const projId = projectList.arr.length - 1;
+    projectButton.setAttribute('data-index', projId);
     projectButton.innerHTML = `<div class="left-project-panel"><i class="fa-solid fa-list"></i><span>&nbsp${title}</span></div>
      <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
     userProjects.appendChild(projectButton);
     const addProjectBtn = document.getElementById('addProjectBtn');
-
     addProjectBtn.style.display = 'block';
 
     // add event listeners
     projectButton.addEventListener('click', () => {
-      if (getItem(newProj.name !== null || getItem(newProj.name !== undefined))) {
-        newProj = JSON.parse(getItem(newProj.name));
-      }
-
-      currentProject = newProj;
-
-      showProjInDom(newProj.name);
+      currentProject = projectList.arr[projId];
+      showProjInDom(currentProject.name);
       loadTodos(currentProject.arr);
     });
 
@@ -162,7 +152,7 @@ export default function loadUi() {
       todo.remove();
       // remove the corresponding todo object
       const num = todo.dataset.index;
-      currentProject.arr.splice(num, 1);
+      currentProject.removeTask(num);
       // deleteItem(todo.title);
     }
   }
@@ -196,7 +186,6 @@ export default function loadUi() {
             if (value.classList.contains('due-date')) {
               currentProject.arr[index].editDueDate(input);
             }
-            saveItem(currentProject.arr[index].title, currentProject.arr[index].title);
           }
         }
       });
@@ -212,16 +201,8 @@ export default function loadUi() {
     } else {
       // create todo object
       const todo = Todo(taskName);
-      if (getItem(currentProject.name) !== undefined || getItem(currentProject.name) !== null) {
-        const currentProjectUnparsed = getItem(currentProject.name);
-        currentProject = JSON.parse(currentProjectUnparsed);
-      }
-      currentProject.arr.push(todo);
+      currentProject.addTask(todo);
       todoPrompt.remove();
-
-      // save in local storage
-      // saveItem(todo.title, todo);
-      // saveItem(currentProject.title, currentProject);
 
       // create todo component
       const todoItem = document.createElement('button');
@@ -248,33 +229,8 @@ export default function loadUi() {
 
   // get the todo tasks in inbox
   function getInboxTasks() {
-    if (getItem('defaultProject') !== undefined || getItem('defaultProject') !== null) {
-      const unparsedProj = getItem('defaultProject');
-      defaultProject = JSON.parse(unparsedProj);
-      loadTodos(defaultProject.arr);
-    } else {
-      loadTodos(defaultProject.arr);
-    }
+    loadTodos(defaultProject.arr);
   }
-
-  /* // SAVING THEM FOR FUTURE FEATURES
-   // function get the todo tasks of the week
-  function getWeeksTasks() {
-    // get each projects today tasks
-    const buffer = [];
-    projectList.arr.forEach((list) => {
-      buffer.push(list.getWeeklyTasks());
-    });
-
-    // split all arrays in buffer into individual item
-    const weeksTasks = [];
-    buffer.forEach((arr) => {
-      arr.forEach((item) => {
-        weeksTasks.push(item);
-      });
-    });
-    loadTodos(weeksTasks);
-  } */
 
   // ADD EVENT LISTENERS
   const addProjectBtn = document.getElementById('addProjectBtn');
@@ -290,29 +246,7 @@ export default function loadUi() {
     getInboxTasks();
   });
 
-  /** saving for future features
-   * const todayBtn = document.getElementById('todayBtn');
-  todayBtn.addEventListener('click', () => {
-    showProjInDom('Today');
-    getDaysTasks();
-  });
-
-  const thisWeekBtn = document.getElementById('thisWeekBtn');
-  thisWeekBtn.addEventListener('click', () => {
-    showProjInDom('This Week');
-    getWeeksTasks();
-  });
-
-   */
-
   // DEFAULT BEHAVIOUR WHEN WINDOW LOADS
   showProjInDom('Inbox');
   getInboxTasks();
-  if (getItem('projectList') !== undefined || getItem('projectList') !== null) {
-    const projectListUnparsed = getItem('projectList');
-    projectList = JSON.parse(projectListUnparsed);
-    projectList.arr.forEach((element) => {
-      addProject(element.title);
-    });
-  }
 }
