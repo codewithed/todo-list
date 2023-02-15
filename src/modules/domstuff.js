@@ -67,31 +67,32 @@ export default function loadUi() {
     // remove todo component
     if (e.target.classList.contains('fa-xmark')) {
       const todo = e.target.parentElement.parentElement;
-      todo.remove();
       // remove the corresponding todo object
       const num = todo.dataset.index;
       currentProject.removeTask(num);
+      todo.remove();
     }
   }
 
   // create todo component
-  function createTodoComponent(title, date) {
+  function createTodoComponent(title, date, index) {
     const todoSection = document.getElementById('tasklist');
     const todoItem = document.createElement('button');
     todoItem.classList.add('todo-item');
     todoItem.innerHTML = `<div class="left-task-panel"><i class="fa-regular fa-circle"></i><p class="todo-title">${title}</p><input type="text" class="input-task-name" data-input-task-name=""></div>
     <div class="right-task-panel"><p class='due-date'>${date}</p><input type="date" name="" id="inputDueDate" class="input-date" data-input-date><i class="fa-solid fa-xmark"></i></i></div>`;
-    const index = currentProject.arr.length;
     todoItem.setAttribute('data-index', index);
     todoSection.append(todoItem);
-    todoItem.addEventListener('click', deleteTodo);
-    todoItem.addEventListener('click', updateTodo);
+    todoItem.addEventListener('click', (e) => { deleteTodo(e); });
+    todoItem.addEventListener('click', (e) => { updateTodo(e); });
   }
 
   // loads todos of a project
   function loadTodos(arr) {
+    let counter = 0;
     arr.forEach((element) => {
-      createTodoComponent(element.title, element.dueDate);
+      createTodoComponent(element.title, element.dueDate, counter);
+      counter += 1;
     });
   }
 
@@ -184,7 +185,7 @@ export default function loadUi() {
       currentProject.addTask(todo);
       todoPrompt.remove();
 
-      createTodoComponent(taskName);
+      createTodoComponent(todo.title, todo.dueDate, currentProject.arr.length - 1);
       const addTodoBtn = document.getElementById('addTodoBtn');
       addTodoBtn.style.display = 'block';
     }
