@@ -5,14 +5,16 @@ import { saveItem, getItem, deleteItem } from './storage';
 
 export default function loadUi() {
   // create default objects
-  const defaultProject = new Project('defaultProject');
+  const defaultProject = getItem('defaultProject') || new Project('defaultProject');
   let currentProject = defaultProject;
-  const projectList = new ProjectList();
+  const projectList = getItem('projectList') || new ProjectList();
 
   // creates new project from projectPrompt
   function addProject(title) {
     const newProj = new Project(title);
-    projectList.addProject(newProj);
+    projectList.arr.push(newProj);
+    saveItem(newProj.name, newProj);
+    saveItem('projectList', projectList);
   }
 
   // deletes a project
@@ -20,7 +22,8 @@ export default function loadUi() {
     if (e.target.classList.contains('fa-xmark')) {
       const projectBtn = e.target.parentElement.parentElement;
       const num = projectBtn.dataset.index;
-      projectList.removeProject(num);
+      deleteItem(projectList.arr[num].name);
+      projectList.arr.splice(num, 1);
       projectBtn.remove();
       e.stopPropagation();
     }
@@ -56,6 +59,10 @@ export default function loadUi() {
             if (value.classList.contains('due-date')) {
               currentProject.arr[index].editDueDate(input);
             }
+
+            // save the current project
+            saveItem(currentProject.name, currentProject);
+            saveItem('projectList', projectList);
           }
         }
       });
@@ -69,8 +76,10 @@ export default function loadUi() {
       const todo = e.target.parentElement.parentElement;
       // remove the corresponding todo object
       const num = todo.dataset.index;
-      currentProject.removeTask(num);
+      currentProject.arr.splice(num, 1);
       todo.remove();
+      saveItem(currentProject.name, currentProject);
+      saveItem('projectList', projectList);
     }
   }
 
@@ -104,14 +113,13 @@ export default function loadUi() {
     projtitle.innerText = projectName;
   }
 
-  function createProjectButton(title) {
+  function createProjectButton(title, id) {
     // create project button
     const userProjects = document.getElementById('userProjects');
     const projectButton = document.createElement('button');
     projectButton.classList.add('project-button');
     projectButton.style.id = 'projectButton';
-    const projId = projectList.arr.length - 1;
-    projectButton.setAttribute('data-index', projId);
+    projectButton.setAttribute('data-index', id);
     projectButton.innerHTML = `<div class="left-project-panel"><i class="fa-solid fa-list"></i><span>&nbsp${title}</span></div>
      <div class="right-project-panel"><i class="fa-solid fa-xmark"></i></div>`;
     userProjects.appendChild(projectButton);
@@ -120,8 +128,8 @@ export default function loadUi() {
 
     // add event listeners
     projectButton.addEventListener('click', (e) => {
+      currentProject = getItem(projectList.arr[id].name);
       deleteProject(e);
-      currentProject = projectList.arr[projId];
       showProjInDom(currentProject.name);
       loadTodos(currentProject.arr);
     });
@@ -158,7 +166,7 @@ export default function loadUi() {
         alert("Project name can't be empty");
       }
       addProject(title);
-      createProjectButton(title);
+      createProjectButton(title, projectList.length);
       removeProjectPrompt();
     });
     cancel.addEventListener('click', removeProjectPrompt);
@@ -182,12 +190,13 @@ export default function loadUi() {
     } else {
       // create todo object
       const todo = Todo(taskName);
-      currentProject.addTask(todo);
+      currentProject.arr.push(todo);
       todoPrompt.remove();
 
       createTodoComponent(todo.title, todo.dueDate, currentProject.arr.length - 1);
       const addTodoBtn = document.getElementById('addTodoBtn');
       addTodoBtn.style.display = 'block';
+      saveItem(currentProject.name, currentProject);
     }
   }
 
@@ -220,11 +229,19 @@ export default function loadUi() {
 
   const inboxBtn = document.getElementById('inboxBtn');
   inboxBtn.addEventListener('click', () => {
-    currentProject = defaultProject;
     showProjInDom('Inbox');
+    currentProject = defaultProject;
     loadTodos(defaultProject.arr);
   });
 
   // DEFAULT BEHAVIOUR WHEN WINDOW LOADS
   showProjInDom('Inbox');
+  currentProject = defaultProject;
+  loadTodos(defaultProject.arr);
+
+  projectList.arr.forEach((proj) => {
+    let counter = 0;
+    createProjectButton(proj.name, counter);
+    counter += 1;
+  });
 }
