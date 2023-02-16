@@ -22,6 +22,12 @@ body {
     font-family: 'Poppins', 'Helvetica Neue', sans-serif;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .header {
     padding: 2rem;
     background-color: var(--bg-main);
@@ -56,6 +62,7 @@ body {
     background-color: var(--bg-hover);
     width: 300px;
     min-width: 250px;
+    min-height: 70vh;
     padding: 3rem;
 }
 
