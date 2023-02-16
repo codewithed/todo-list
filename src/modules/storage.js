@@ -5,7 +5,7 @@ export function saveItem(itemName, itemObject) {
 
 // Gets an Item from local storage
 export function getItem(itemName) {
-  return (localStorage.getItem(itemName));
+  return (JSON.parse(localStorage.getItem(itemName)));
 }
 
 // removes an Item from local storage
