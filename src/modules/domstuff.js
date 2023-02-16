@@ -1,5 +1,4 @@
 import Todo from './Todo';
-import ProjectList from './projectlist';
 import Project from './project';
 import { saveItem, getItem, deleteItem } from './storage';
 
@@ -7,12 +6,12 @@ export default function loadUi() {
   // create default objects
   const defaultProject = getItem('defaultProject') || new Project('defaultProject');
   let currentProject = defaultProject;
-  const projectList = getItem('projectList') || new ProjectList();
+  const projectList = getItem('projectList') || [];
 
   // creates new project from projectPrompt
   function addProject(title) {
     const newProj = new Project(title);
-    projectList.arr.push(newProj);
+    projectList.push(newProj);
     saveItem(newProj.name, newProj);
     saveItem('projectList', projectList);
   }
@@ -22,8 +21,8 @@ export default function loadUi() {
     if (e.target.classList.contains('fa-xmark')) {
       const projectBtn = e.target.parentElement.parentElement;
       const num = projectBtn.dataset.index;
-      deleteItem(projectList.arr[num].name);
-      projectList.arr.splice(num, 1);
+      deleteItem(projectList[num].name);
+      projectList.splice(num, 1);
       projectBtn.remove();
       e.stopPropagation();
     }
@@ -128,7 +127,7 @@ export default function loadUi() {
 
     // add event listeners
     projectButton.addEventListener('click', (e) => {
-      currentProject = getItem(projectList.arr[id].name);
+      currentProject = getItem(projectList[id].name);
       deleteProject(e);
       showProjInDom(currentProject.name);
       loadTodos(currentProject.arr);
@@ -239,7 +238,7 @@ export default function loadUi() {
   currentProject = defaultProject;
   loadTodos(defaultProject.arr);
 
-  projectList.arr.forEach((proj) => {
+  projectList.forEach((proj) => {
     let counter = 0;
     createProjectButton(proj.name, counter);
     counter += 1;
