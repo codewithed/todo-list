@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
 
 :root {
-    --bg-main: #d97706;
+    --bg-main: #fef08a;
     --text-color: black;
-    --bg-secondary: #fffbeb;
-    --bg-hover: #fde68a;
+    --bg-secondary: #fef9c3;
+    --bg-hover: #fefce8;
     --font-size-xl: 4rem;
     --font-size-big: 2.2rem;
     --font-size-medium: 1.8rem;
-    --primary-light: whitesmoke;
+    --primary-light: #fefce8;
 }
 
 html {
