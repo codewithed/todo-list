@@ -3,8 +3,8 @@
 :root {
     --bg-main: #fef08a;
     --text-color: black;
-    --bg-secondary: #fef9c3;
-    --bg-hover: #fefce8;
+    --bg-secondary: #fefce8;
+    --bg-hover: #fef9c3;
     --font-size-xl: 4rem;
     --font-size-big: 2.2rem;
     --font-size-medium: 1.8rem;
@@ -62,7 +62,7 @@ body {
     background-color: var(--bg-hover);
     width: 300px;
     min-width: 250px;
-    min-height: 70vh;
+    min-height: 75vh;
     padding: 3rem;
 }
 
